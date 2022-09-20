@@ -34,9 +34,9 @@ const Home = () => {
             <h1 className="title-font sm:text-4xl text-3xl mb-4 font-bold text-gray-200">COMBATE MUNDIAL A CEGUEIRA</h1>
             <p className="mb-8 text-gray-200 leading-relaxed">Meggings kinfolk echo park stumptown DIY, kale chips beard jianbing tousled. Chambray dreamcatcher trust fund, kitsch vice godard disrupt ramps hexagon mustache umami snackwave tilde chillwave ugh. Pour-over meditation PBR&B pickled ennui celiac mlkshk freegan photo booth af fingerstache pitchfork.</p>
             <div className="flex justify-center">
-            <ModalForm />
+              <ModalForm />
             </div>
-       
+
           </div>
         </div>
       </section>
@@ -53,7 +53,7 @@ const Home = () => {
 
           </div>
         </div>
-     </section>
+      </section>
 
       <section className="text-gray-600 body-font">
         <div className="container bg-zinc-900 mx-auto flex px-5 py-24 items-center justify-center flex-col border-8 rounded-2xl border-red-800 shadow-2xl shadow-red-500	">
@@ -69,35 +69,35 @@ const Home = () => {
             </div>
             <h1 className=" p-20 sm:text-4xl text-2xl mb-4 font-mono font-bold text-gray-200">Compartilhe com seus amigos e familiares!
               Vamos combater juntos a cegueira mundial!</h1>
-              <span className="inline-flex m-2">
-                  <Link to="" className="text-gray-200 bg-red-600 p-2 rounded-full hover:bg-red-700">
-                    <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-                    </svg>
-                  </Link>
-                  <Link to="" className="ml-4 text-gray-200 bg-red-600 p-2 rounded-full hover:bg-red-700">
-                    <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                      <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-                    </svg>
-                  </Link>
-                  <Link to="" className="ml-4 text-gray-200 bg-red-600 p-2 rounded-full hover:bg-red-700">
-                    <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-                      <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-                    </svg>
-                  </Link>
-                  <Link  to="" className="ml-4 text-gray-200 bg-red-600 p-2 rounded-full hover:bg-red-700">
-                    <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                      <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
-                    </svg>
-                  </Link>
-                </span>
+            <span className="inline-flex m-2">
+              <Link to="" className="text-gray-200 bg-red-600 p-2 rounded-full hover:bg-red-700">
+                <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                </svg>
+              </Link>
+              <Link to="" className="ml-4 text-gray-200 bg-red-600 p-2 rounded-full hover:bg-red-700">
+                <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                </svg>
+              </Link>
+              <Link to="" className="ml-4 text-gray-200 bg-red-600 p-2 rounded-full hover:bg-red-700">
+                <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                </svg>
+              </Link>
+              <Link to="" className="ml-4 text-gray-200 bg-red-600 p-2 rounded-full hover:bg-red-700">
+                <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+                </svg>
+              </Link>
+            </span>
           </div>
         </div>
       </section>
 
-     
-    
+
+
       <section className="text-gray-600 bg-[url('./assets/header.png')] bg-cover mt-40 body-font relative">
         <form className="container px-5 py-24 mx-auto">
           <div className="flex flex-col text-center w-full mb-12">
@@ -127,16 +127,16 @@ const Home = () => {
               <div className="p-2 w-full">
                 <button className="flex mx-auto text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 shadow-xl rounded text-lg">ENVIAR</button>
               </div>
-            
+
             </div>
           </div>
         </form>
       </section>
 
-    <Footer /> 
-    <BackTop>
-      <div style={style}>↑</div>
-    </BackTop>
+      <Footer />
+      <BackTop>
+        <div style={style}>↑</div>
+      </BackTop>
     </>
   )
 }
