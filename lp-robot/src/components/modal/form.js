@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { DatePicker, Checkbox } from 'antd';
+import 'flowbite';
+import 'tw-elements';
 import { Radio } from 'antd';
 import robotsvg from "../../assets/robotsvg.svg";
-import { Progress, DatePicker, Rate } from "antd";
+import { Progress, Rate } from "antd";
+import { api } from "../../services/api";
+
 
 function Form() {
+
   const [count, setCount] = useState(1);
-  const [value, setValue] = useState(3);
 
   const [buttonDisable, setButtonDisable] = useState(true)
 
-  const [name, setName] = useState('')
+  const [id, setId] = useState('')
+  const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
 
   const [feeling, setFeeling] = useState('')
@@ -26,6 +32,7 @@ function Form() {
   const [nightVision, setnightVision] = useState('')
 
   const [testVision, settestVision] = useState('')
+  const [testVision2, settestVision2] = useState('')
   const [testDigital, settestDigital] = useState('')
   const [farVision, setfarVision] = useState('')
 
@@ -58,15 +65,57 @@ function Form() {
 
   const [phone, setphone] = useState('')
   const [message, setmessage] = useState('')
+  const [value, setValue] = useState(3);
 
   const onChange = (date, dateString) => {
     setbirthDay(dateString);
   };
 
+  const handleEyePain = (checkedValues) => {
+    setEyePain(checkedValues.join(', '))
+  };
+
+  const handleTestDigital = (checkedValues) => {
+    settestDigital(checkedValues.join(', '))
+  };
+
+  const handleNightVision = (checkedValues) => {
+    setnightVision(checkedValues.join(', '))
+  };
+
+  const handleFarVision = (checkedValues) => {
+    setfarVision(checkedValues.join(', '))
+  };
+
+  const handleFarVision3 = (checkedValues) => {
+    setfarVision3(checkedValues.join(', '))
+  };
+
+  const handleSymptoms2 = (checkedValues) => {
+    setsysmptoms2(checkedValues.join(', '))
+  };
+
+  const handleSymptoms3 = (checkedValues) => {
+    setsysmptoms3(checkedValues.join(', '))
+  };
+
+  const handleSymptoms4 = (checkedValues) => {
+    setsysmptoms4(checkedValues.join(', '))
+  };
+
+  const handleSymptoms5 = (checkedValues) => {
+    setsysmptoms5(checkedValues.join(', '))
+  };
+
+  const handleFeelingToday = (checkedValues) => {
+    setfeelingToday(checkedValues.join(', '))
+  }
+
+
   async function handleNextStep(e) {
     e.preventDefault()
     if (count === 2) {
-      if (!name || !email) setButtonDisable(true)
+      if (!nome || !email) setButtonDisable(true)
     }
 
     if (count === 3) {
@@ -125,11 +174,68 @@ function Form() {
     setCount(count + 1)
   }
 
+  const sendData = async () => {
+    const data = {
+      nome,
+      email,
+      feeling,
+      symptoms,
+      pression,
+      problem,
+      medicine,
+      eyePain,
+      feelingToday,
+      vision,
+      glass,
+      nightVision,
+      testVision,
+      testVision2,
+      testDigital,
+      farVision,
+      birthDay,
+      farVision2,
+      farVision3,
+      nearVision,
+      nearVision2,
+      confort,
+      doze,
+      oito,
+      quinze,
+      seis,
+      treze,
+      quatrodois,
+      doze2,
+      oito2,
+      quinze2,
+      seis2,
+      treze2,
+      quatrodois2,
+      alignEye,
+      sysmptoms2,
+      sysmptoms3,
+      sysmptoms4,
+      sysmptoms5,
+      phone,
+      message
+    }
+    const response = await api.post('/api/criarpergunta', data)
+    setId(response.data._id)
+  }
+
+  const getData = async () => {
+    const response = await api.get('/api/criarpergunta', {
+      params: {
+        id: id
+      }
+    })
+    console.log(response)
+  }
+
   useEffect(() => {
     if (count === 2) {
-      if (name && email) setButtonDisable(false)
+      if (nome && email) setButtonDisable(false)
     }
-  }, [name, email])
+  }, [nome, email])
 
   useEffect(() => {
     if (count === 3) {
@@ -147,6 +253,7 @@ function Form() {
     if (count === 5) {
       if (feelingToday && vision && glass && nightVision) setButtonDisable(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [feelingToday, vision, glass, nightVision])
 
   useEffect(() => {
@@ -191,6 +298,7 @@ function Form() {
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doze,
     oito,
     quinze,
@@ -271,8 +379,8 @@ function Form() {
                 placeholder="seu nome"
                 class="p-3 mt-2 mb-4 w-full bg-slate-200 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
                 required
-                value={name}
-                onChange={e => setName(e.target.value)}
+                value={nome}
+                onChange={e => setNome(e.target.value)}
               />
               <label class="uppercase text-sm font-bold opacity-70">
                 Informe seu Melhor E-mail!
@@ -286,7 +394,7 @@ function Form() {
                 onChange={e => setEmail(e.target.value)}
               />
 
-              <button className={`w-20 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
+              <button className={`w-40 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
                 type="button"
                 onClick={handleNextStep}
                 disabled={count > 11 || buttonDisable}
@@ -300,7 +408,7 @@ function Form() {
                 <h1 className="text-2xl font-bold">Saude Geral</h1>
               </div>
               <h1>1- Como você está se sentindo hoje?</h1>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={feeling} onChange={e => setFeeling(e.target.value)}>
+              <Radio.Group name="radiogroup" className="flex-row flex " value={feeling} onChange={e => setFeeling(e.target.value)}>
                 <div className="content w-70 m-2">
                   <div className="flex flex-nowrap  mb-5 pr-20">
                     <div className="flex-row mr-12">
@@ -460,7 +568,7 @@ function Form() {
                 </div>
               </Radio.Group>
 
-              <button className={`w-20 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
+              <button className={`w-40 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
                 type="button"
                 onClick={handleNextStep}
                 disabled={count > 11 || buttonDisable}
@@ -528,21 +636,21 @@ function Form() {
                         <img src="https://adamrobo.com.br/lp/img/game/icon-anm-medicamentos.svg" width="50" height="30" alt="" />
                         <br />
 
-                        <Radio value={'Cardíacos'}>Cardíacos</Radio>
+                        <Radio value={'Medicações Contínuas'}>Medicações Contínuas</Radio>
                       </label>
                     </div>
                     <div className="flex-row mr-5">
                       <label htmlFor="happy">
                         <img src="https://adamrobo.com.br/lp/img/game/icon-anm-tratamentos-especiais.png" width="55" height="30" alt="" />
                         <br />
-                        <Radio value={'Diabetico'}>Diabetico</Radio>
+                        <Radio value={'tratamentos especiais'}>tratamentos especiais</Radio>
                       </label>
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
                         <img src="https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Ansioso'}>Ansioso</Radio>
+                        <Radio value={'Nenhum'}>Nenhum</Radio>
 
                       </label>
 
@@ -559,29 +667,29 @@ function Form() {
               <div className="text-center">
                 <h1 className="text-2xl font-bold">Saúde Geral dos Olhos </h1>
               </div>
-              <h1>1- Você faz uso de:</h1>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex" value={eyePain} onChange={e => setEyePain(e.target.value)}>
+              <h1>1- Você tem ou sente algum destes sintomas?:</h1>
+              <Checkbox.Group name="radiogroup" defaultValue={0} className="flex-row flex" onChange={handleEyePain}>
                 <div className="content w-70 m-2">
                   <div className="flex flex-nowrap mb-5 pr-20">
                     <div className="flex-row mr-5">
                       <label htmlFor="happy">
                         <img src="	https://adamrobo.com.br/lp/img/game/icon-anm-oftal-dor-olho2.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Dor nos Olhos'}>Dor nos Olhos</Radio>
+                        <Checkbox value={'Dor nos Olhos'}>Dor nos Olhos</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row mr-5">
                       <label htmlFor="happy">
                         <img src="	https://adamrobo.com.br/lp/img/game/icon-anm-oftal-coceira.png" width="55" height="30" alt="" />
                         <br />
-                        <Radio value={'Coceira'}>Coceira</Radio>
+                        <Checkbox value={'Coceira'}>Coceira</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-oftal-ardencia2.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Ardência'}>Ardência</Radio>
+                        <Checkbox value={'Ardência'}>Ardência</Checkbox>
                       </label>
                     </div>
                   </div>
@@ -591,87 +699,82 @@ function Form() {
                       <label htmlFor="happy">
                         <img src="	https://adamrobo.com.br/lp/img/game/icon-anm-oftal-vermelhidao2.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Vermelhidão'}>Vermelhidão</Radio>
+                        <Checkbox value={'Vermelhidão'}>Vermelhidão</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
-                        <img src="		https://adamrobo.com.br/lp/img/game/icon-anm-oftal-ardencia2.svg" width="50" height="30" alt="" />
+                        <img src="	https://adamrobo.com.br/lp/img/game/icon-anm-oftal-lacrimacao2.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Lacrimação'}>Lacrimação</Radio>
+                        <Checkbox value={'Lacrimação'}>Lacrimação</Checkbox>
                       </label>
                     </div>
                   </div>
                 </div>
-              </Radio.Group>
-              <button className={`w-20 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
+              </Checkbox.Group>
+              <button className={`w-40 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
                 type="button"
                 onClick={handleNextStep}
                 disabled={count > 11 || buttonDisable}
               >CONTINUAR</button>
             </div>
+
           ) : null}
           {count === 5 ? (
             <div className="form-group">
               <Progress percent={32} status="active" />
-              <h1>1- Como você está se sentindo hoje?</h1>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={feelingToday} onChange={e => setfeelingToday(e.target.value)}>
+              <h1>1- E estes outros sintomas você tem?</h1>
+              <Checkbox.Group name="radiogroup" defaultValue={0} className="flex-row flex " onChange={handleFeelingToday}>
                 <div className="content w-70 m-2">
                   <div className="flex flex-nowrap  mb-5 pr-20">
                     <div className="flex-row mr-12">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-feliz.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-oftal-olho-seco2.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Sensação olho seco'} >Sensação olho seco</Radio>
+                        <Checkbox value={'Sensação olho seco'} >Sensação olho seco</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row mr-10">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-triste.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-oftal-secrecao.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Secreção'}>Secreção</Radio>
+                        <Checkbox value={'Secreção'}>Secreção</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-estressado.png" width="50" height="30" alt="" />
+                        <img src="	https://adamrobo.com.br/lp/img/game/icon-anm-oftal-flashesluz.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Flashes de Luz ao enxergar'} className="text-xs">Flashes de Luz ao enxergar</Radio>
-
+                        <Checkbox value={'Flashes de Luz ao enxergar'} className="text-xs">Flashes de Luz ao enxergar</Checkbox>
                       </label>
-
                     </div>
-
                   </div>
 
                   <div className="flex flex-nowrap pr-20">
                     <div className="flex-row mr-5">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-medo.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-oftal-manchas.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Manchas ao enxergar'}>Manchas ao enxergar</Radio>
+                        <Checkbox value={'Manchas ao enxergar'}>Manchas ao enxergar</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row mr-5">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-ansioso.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-oftal-moscas.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Moscas Volantes ao enxergar'}>Moscas Volantes ao enxergar</Radio>
+                        <Checkbox value={'Moscas Volantes ao enxergar'}>Moscas Volantes ao enxergar</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
                         <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Nenhum'}>Nenhum</Radio>
-
+                        <Checkbox value={'Nenhum'}>Nenhum</Checkbox>
                       </label>
                     </div>
-
                   </div>
-
                 </div>
-              </Radio.Group>
+              </Checkbox.Group>
 
               <hr />
               <br />
@@ -755,28 +858,28 @@ function Form() {
               </Radio.Group>
 
               <h1>5- Você sente incômodo na visão noturna com:</h1>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={nightVision} onChange={e => setnightVision(e.target.value)}>
+              <Checkbox.Group name="radiogroup" defaultValue={0} className="flex-row flex " onChange={handleNightVision}>
                 <div className="content w-70 m-2">
                   <div className="flex flex-nowrap  mb-5 pr-20">
                     <div className="flex-row mr-12">
                       <label htmlFor="happy">
                         <img src="https://adamrobo.com.br/lp/img/game/icon-anm-oftal-luzes.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Luzes'} >Luzes</Radio>
+                        <Checkbox value={'Luzes'}>Luzes</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row mr-10">
                       <label htmlFor="happy">
                         <img src="	https://adamrobo.com.br/lp/img/game/icon-anm-oftal-farol-veiculos.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Faróis de Veículos'}>Faróis de Veículos</Radio>
+                        <Checkbox value={'Faróis de Veículos'}>Faróis de Veículos</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
                         <img src="	https://adamrobo.com.br/lp/img/game/icon-anm-oftal-brilho-tela.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Brilho das Telas'} className="text-xs">Brilho das Telas</Radio>
+                        <Checkbox value={'Brilho das Telas'} className="text-xs">Brilho das Telas</Checkbox>
 
                       </label>
 
@@ -789,7 +892,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Nenhum'}>Nenhum</Radio>
+                      <Checkbox value={'Nenhum'}>Nenhum</Checkbox>
 
                     </label>
 
@@ -797,8 +900,8 @@ function Form() {
                   </div>
 
                 </div>
-              </Radio.Group>
-              <button className={`w-20 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
+              </Checkbox.Group>
+              <button className={`w-40 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
                 type="button"
                 onClick={handleNextStep}
                 disabled={count > 11 || buttonDisable}
@@ -814,12 +917,46 @@ function Form() {
                 <h1 className="text-2xl font-bold">Teste de Visão </h1>
               </div>
 
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={testVision} onChange={e => settestVision(e.target.value)}>
+              <h1>1 - Já Fez algum teste de Visão antes ?</h1>
+              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={testVision2} onChange={e => settestVision2(e.target.value)}>
                 <div className="flex flex-nowrap p-5 pr-20">
+
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
-                      <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
+
+                      <Radio value={'Sim'}>Sim</Radio>
+
+                    </label>
+                  </div>
+
+                  <div className="flex-row ">
+                    <label htmlFor="happy">
+
+                      <Radio value={''}>Não</Radio>
+                    </label>
+                  </div>
+
+                  <div className="flex-row ">
+                    <label htmlFor="happy">
+
+                      <Radio value={'Desejo ir ao consultório'}>É a 1º vez</Radio>
+                    </label>
+                  </div>
+
+                </div>
+              </Radio.Group>
+
+              <hr />
+              <br />
+
+              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={testVision} onChange={e => settestVision(e.target.value)}>
+                <div className="flex flex-nowrap p-5 pr-20">
+
+
+                  <div className="flex-row ">
+                    <label htmlFor="happy">
+                      <img src="https://adamrobo.com.br/lp/img/game/icon-anm-oftal-teste-digital.svg" width="50" height="30" alt="" />
                       <br />
                       <Radio value={'Teste Digital'}>Teste Digital</Radio>
 
@@ -828,7 +965,7 @@ function Form() {
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
-                      <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
+                      <img src="https://adamrobo.com.br/lp/img/game/icon-anm-oftal-consultorio.svg" width="50" height="30" alt="" />
                       <br />
                       <Radio value={'Fui ao consultório'}>Fui ao consultório</Radio>
                     </label>
@@ -836,7 +973,7 @@ function Form() {
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
-                      <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
+                      <img src="https://adamrobo.com.br/lp/img/game/icon-anm-oftal-gostaria-consultorio.svg" width="50" height="30" alt="" />
                       <br />
                       <Radio value={'Desejo ir ao consultório'}>Desejo ir ao consultório</Radio>
                     </label>
@@ -845,105 +982,98 @@ function Form() {
                 </div>
               </Radio.Group>
 
-              <h1>6- Como está realizando seu Teste de Visão Digital ? </h1>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={testDigital} onChange={e => settestDigital(e.target.value)}>
+              <h1>2- Como está realizando seu Teste de Visão Digital ? </h1>
+              <Checkbox.Group name="radiogroup" defaultValue={0} className="flex-row flex " onChange={handleTestDigital}>
 
                 <div className="flex flex-nowrap p-5 pr-20">
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
-                      <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
+                      <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-natural.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Sem óculos'}>Sem óculos</Radio>
+                      <Checkbox value={'Sem óculos'}>Sem óculos</Checkbox>
 
                     </label>
                   </div>
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
-                      <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
+                      <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-oculos.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Com Óculos'}>Com Óculos</Radio>
+                      <Checkbox value={'Com Óculos'}>Com Óculos</Checkbox>
                     </label>
                   </div>
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
-                      <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
+                      <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-lentes.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Com lentes de contato'}>Com lentes de contato</Radio>
+                      <Checkbox value={'Com lentes de contato'}>Com lentes de contato</Checkbox>
                     </label>
                   </div>
-
-
+                  <div className="flex-row ">
+                    <label htmlFor="happy">
+                      <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-cirurgia.svg" width="50" height="30" alt="" />
+                      <br />
+                      <Checkbox value={'ja fiz Cirurgia'}>ja fiz Cirurgia</Checkbox>
+                    </label>
+                  </div>
                 </div>
 
-                <div className="flex-row ml-5 ">
-                  <label htmlFor="happy">
-                    <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
-                    <br />
-                    <Radio value={'ja fiz Cirurgia'}>ja fiz Cirurgia</Radio>
 
-                  </label>
-
-
-                </div>
-              </Radio.Group>
+              </Checkbox.Group>
 
               <br />
               <hr />
 
-              <h1>7- Como é sua visão para longe ? </h1>
+              <h1>3- Como é sua visão para longe ? </h1>
               <p className="font-bold">Marque as opções em que sente dificuldades :</p>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={farVision} onChange={e => setfarVision(e.target.value)}>
+              <Checkbox.Group name="radiogroup" defaultValue={0} className="flex-row flex " onChange={handleFarVision}>
                 <div className="content w-70 m-2">
                   <div className="flex flex-nowrap  mb-5 pr-20">
                     <div className="flex-row mr-12">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-feliz.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-cinema.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Cinema'} >Cinema</Radio>
+                        <Checkbox value={'Cinema'} >Cinema</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row mr-10">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-triste.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-tv.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Televisão'}>Televisão</Radio>
+                        <Checkbox value={'Televisão'}>Televisão</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-estressado.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-outdoor.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Outdoor'}>Outdoor</Radio>
-
+                        <Checkbox value={'Outdoor'}>Outdoor</Checkbox>
                       </label>
-
                     </div>
-
                   </div>
 
                   <div className="flex flex-nowrap pr-20">
                     <div className="flex-row mr-5">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-medo.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-reconhecerpessoa.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Não reconheco as pessoas na rua'}>Não reconheco as pessoas na rua</Radio>
+                        <Checkbox value={'Não reconheco as pessoas na rua'}>Não reconheco as pessoas na rua</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row mr-5">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-ansioso.png" width="50" height="30" alt="" />
+                        <img src="	https://adamrobo.com.br/lp/img/game/icon-testevisao-onibus.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Dificuldade identificar ônibus'}>Dificuldade identificar ônibus</Radio>
+                        <Checkbox value={'Dificuldade identificar ônibus'}>Dificuldade identificar ônibus</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-depressivo.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Nenhum'}>Nenhum</Radio>
+                        <Checkbox value={'Nenhum'}>Nenhum</Checkbox>
 
                       </label>
 
@@ -952,8 +1082,8 @@ function Form() {
                   </div>
 
                 </div>
-              </Radio.Group>
-              <button className={`w-20 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
+              </Checkbox.Group>
+              <button className={`w-40 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
                 type="button"
                 onClick={handleNextStep}
                 disabled={count > 11 || buttonDisable}
@@ -971,7 +1101,9 @@ function Form() {
               <h1>6- Qual sua data de nascimento ?  </h1>
               <div className="flex flex-nowrap p-5 pr-20">
 
+
                 <DatePicker onChange={onChange} />
+
 
               </div>
 
@@ -979,11 +1111,11 @@ function Form() {
 
               <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={farVision2} onChange={e => setfarVision2(e.target.value)}>
 
-                <div className="flex flex-wrap p-5 pr-20 ml-20">
+                <div className="flex flex-wrap p-5 pr-20 ">
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
-                      <img src="	https://adamrobo.com.br/lp/img/game/icon-testevisao-normal.jpg" width="120" height="50" alt="" />
+                      <img src="	https://adamrobo.com.br/lp/img/game/icon-testevisao-normal.jpg" width="120" height="30" alt="" />
                       <br />
                       <Radio value={'Nítida'}>Nítida</Radio>
 
@@ -1000,7 +1132,7 @@ function Form() {
 
                 </div>
 
-                <div className="flex flex-wrap p-5 pr-20 ml-20">
+                <div className="flex flex-wrap ">
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
@@ -1025,30 +1157,30 @@ function Form() {
               <br />
               <hr />
 
-              <h1>8- Como é sua visão para longe ? </h1>
-              <p className="font-bold">Marque as opções em que sente dificuldades :</p>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={farVision3} onChange={e => setfarVision3(e.target.value)}>
+              <h1>8- Como é sua visão de Perto? </h1>
+              <p className="font-bold">Quais das opções abaixo sinto dificuldades ? :</p>
+              <Checkbox.Group name="radiogroup" defaultValue={0} className="flex-row flex " onChange={handleFarVision3}>
                 <div className="content w-70 m-2">
                   <div className="flex flex-nowrap  mb-5 pr-20">
                     <div className="flex-row mr-12">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-feliz.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-livro.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'leitura'}>leitura</Radio>
+                        <Checkbox value={'leitura'}>leitura</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row mr-10">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-triste.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-celular.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Celular ou Computador ? '}>Celular ou Computador ? </Radio>
+                        <Checkbox value={'Celular ou Computador ? '}>Celular ou Computador ? </Checkbox>
                       </label>
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-estressado.png" width="50" height="30" alt="" />
+                        <img src="	https://adamrobo.com.br/lp/img/game/icon-testevisao-tvperto.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'TV'}>TV</Radio>
+                        <Checkbox value={'TV'}>TV</Checkbox>
 
                       </label>
 
@@ -1059,23 +1191,23 @@ function Form() {
                   <div className="flex flex-nowrap pr-20">
                     <div className="flex-row mr-5">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-medo.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-esticobraco.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Estico o braço'}>Estico o braço</Radio>
+                        <Checkbox value={'Estico o braço'}>Estico o braço</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row mr-5">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-1-ansioso.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/icon-testevisao-pesoolhos.svg" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Peso ao redor dos olhos'}>Peso ao redor dos olhos</Radio>
+                        <Checkbox value={'Peso ao redor dos olhos'}>Peso ao redor dos olhos</Checkbox>
                       </label>
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
-                        <img src="https://adamrobo.com.br/lp/img/game/icon-anm-depressivo.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
                         <br />
-                        <Radio value={'Nenhum'}>Nenhum</Radio>
+                        <Checkbox value={'Nenhum'}>Nenhum</Checkbox>
 
                       </label>
 
@@ -1086,11 +1218,11 @@ function Form() {
                   </div>
 
                 </div>
-              </Radio.Group>
+              </Checkbox.Group>
 
               <h1>9- Ao enxergar para perto, como é sua visão ?    </h1>
               <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={nearVision} onChange={e => setnearVision(e.target.value)}>
-                <div className="flex flex-wrap p-5 pr-20 ml-20">
+                <div className="flex flex-wrap p-5 pr-20 ">
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
@@ -1111,7 +1243,7 @@ function Form() {
 
                 </div>
 
-                <div className="flex flex-wrap p-5 pr-20 ml-20">
+                <div className="flex flex-wrap p-5 pr-20 ">
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
@@ -1136,7 +1268,7 @@ function Form() {
               <h1>10- Ao enxergar para e perto ao mesmo tempo, como é sua visão?   </h1>
               <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={nearVision2} onChange={e => setnearVision2(e.target.value)}>
 
-                <div className="flex flex-wrap p-5 pr-20 ml-20">
+                <div className="flex flex-wrap p-5 pr-20">
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
@@ -1157,7 +1289,7 @@ function Form() {
 
                 </div>
 
-                <div className="flex flex-wrap p-5 pr-20 ml-20">
+                <div className="flex flex-wrap p-5  ml-10">
 
                   <div className="flex-row ">
                     <label htmlFor="happy">
@@ -1193,9 +1325,9 @@ function Form() {
               <div className="flex flex-wrap p-5 pr-20 ml-20">
 
                 <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex" value={confort} onChange={e => setconfort(e.target.value)}>
-                  <div className="content w-70 m-2">
+                  <div className="content w-70  ml-0">
 
-                    <div className="flex flex-nowrap mb-5 pr-20">
+                    <div className="flex flex-nowrap mb-5 ">
 
 
                       <div className="flex-row mr-5">
@@ -1213,7 +1345,7 @@ function Form() {
                           <Radio value={'Vermelho'}>Vermelho</Radio>
                         </label>
                       </div>
-                      <div className="flex-row ">
+                      <div className="flex-row  ">
                         <label htmlFor="happy">
 
                           <Radio value={'Os dois lados'}>Os dois lados</Radio>
@@ -1229,7 +1361,7 @@ function Form() {
 
 
               </div>
-              <button className={`w-20 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
+              <button className={`w-40 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
                 type="button"
                 onClick={handleNextStep}
                 disabled={count > 11 || buttonDisable}
@@ -1335,7 +1467,7 @@ function Form() {
               <br />
               <hr />
 
-              <button className={`w-20 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
+              <button className={`w-40 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
                 type="button"
                 onClick={handleNextStep}
                 disabled={count > 11 || buttonDisable}
@@ -1437,7 +1569,7 @@ function Form() {
               </div>
               <br />
               <hr />
-              <button className={`w-20 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
+              <button className={`w-40 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
                 type="button"
                 onClick={handleNextStep}
                 disabled={count > 11 || buttonDisable}
@@ -1469,7 +1601,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="https://adamrobo.com.br/lp/img/game/icon-teste-visao-estrabismo1.svg" width="120" height="30" alt="" />
                       <br />
-                      <Radio value={'Desalinhado'}>Desalinhado</Radio>
+                      <Radio value={'Desalinhado1'}>Desalinhado</Radio>
                     </label>
                   </div>
 
@@ -1481,7 +1613,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="https://adamrobo.com.br/lp/img/game/icon-teste-visao-estrabismo3.svg" width="120" height="50" alt="" />
                       <br />
-                      <Radio value={'Desalinhado'}>Desalinhado</Radio>
+                      <Radio value={'Desalinhado2'}>Desalinhado</Radio>
                     </label>
                   </div>
 
@@ -1489,7 +1621,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/icon-teste-visao-estrabismo4.svg" width="120" height="30" alt="" />
                       <br />
-                      <Radio value={'Desalinhado'}>Desalinhado</Radio>
+                      <Radio value={'Desalinhado3'}>Desalinhado</Radio>
                     </label>
                   </div>
 
@@ -1499,7 +1631,7 @@ function Form() {
 
 
               <h1>2- Sente alguns destes sintomas ?  </h1>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={sysmptoms2} onChange={e => setsysmptoms2(e.target.value)}>
+              <Checkbox.Group name="radiogroup" defaultValue={0} className="flex-row flex " onChange={handleSymptoms2}>
 
                 <div className="flex flex-wrap p-5 pr-20 ">
 
@@ -1507,7 +1639,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/icon-patologia-nebulosa.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Visão Nebulosa'}>Visão Nebulosa</Radio>
+                      <Checkbox value={'Visão Nebulosa'}>Visão Nebulosa</Checkbox>
                     </label>
                   </div>
 
@@ -1515,7 +1647,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="https://adamrobo.com.br/lp/img/game/icon-patologia-troca-receita.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Troca constante de receita'}>Troca constante de receita</Radio>
+                      <Checkbox value={'Troca constante de receita'}>Troca constante de receita</Checkbox>
                     </label>
                   </div>
 
@@ -1527,7 +1659,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/icon-teste-visao-melhora-piora-visao.png" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Melhora e piora a constante de visão'}>Melhora e piora a constante de visão</Radio>
+                      <Checkbox value={'Melhora e piora a constante de visão'}>Melhora e piora a constante de visão</Checkbox>
                     </label>
                   </div>
 
@@ -1535,15 +1667,15 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Nenhum'}>Nenhum</Radio>
+                      <Checkbox value={'Nenhum'}>Nenhum</Checkbox>
                     </label>
                   </div>
 
                 </div>
-              </Radio.Group>
+              </Checkbox.Group>
 
               <h1>3- Sente alguns destes sintomas?  </h1>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={sysmptoms3} onChange={e => setsysmptoms3(e.target.value)}>
+              <Checkbox.Group name="radiogroup" defaultValue={0} className="flex-row flex " onChange={handleSymptoms3}>
 
                 <div className="flex flex-wrap p-5 pr-20 ">
 
@@ -1551,7 +1683,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/icon-patologia-noite.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Não enxergar bem a noite'}>Não enxergar bem a noite</Radio>
+                      <Checkbox value={'Não enxergar bem a noite'}>Não enxergar bem a noite</Checkbox>
                     </label>
                   </div>
 
@@ -1559,7 +1691,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="https://adamrobo.com.br/lp/img/game/icon-patologia-nausea.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Náusea e vômito'}>Náusea e vômito</Radio>
+                      <Checkbox value={'Náusea e vômito'}>Náusea e vômito</Checkbox>
                     </label>
                   </div>
 
@@ -1571,15 +1703,15 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Nenhum'}>Nenhum</Radio>
+                      <Checkbox value={'Nenhum'}>Nenhum</Checkbox>
                     </label>
                   </div>
 
                 </div>
-              </Radio.Group>
+              </Checkbox.Group>
 
               <h1>4- Sente alguns destes sintomas?  </h1>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={sysmptoms4} onChange={e => setsysmptoms4(e.target.value)}>
+              <Checkbox.Group name="radiogroup" defaultValue={0} className="flex-row flex " onChange={handleSymptoms4}>
 
                 <div className="flex flex-wrap p-5 pr-20 ">
 
@@ -1587,7 +1719,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/icon-patologia-sensivel-sol.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Hipersenbilidade a Luz'}>Hipersenbilidade a Luz</Radio>
+                      <Checkbox value={'Hipersenbilidade a Luz'}>Hipersenbilidade a Luz</Checkbox>
                     </label>
                   </div>
 
@@ -1595,7 +1727,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="https://adamrobo.com.br/lp/img/game/icon-patologia-fantasma.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'imagens fantasma'}>imagens fantasma</Radio>
+                      <Checkbox value={'imagens fantasma'}>imagens fantasma</Checkbox>
                     </label>
                   </div>
 
@@ -1607,15 +1739,15 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Nenhum'}>Nenhum</Radio>
+                      <Checkbox value={'Nenhum'}>Nenhum</Checkbox>
                     </label>
                   </div>
 
                 </div>
-              </Radio.Group>
+              </Checkbox.Group>
 
               <h1>5- Sente alguns destes sintomas ou caracteristicas ?  </h1>
-              <Radio.Group name="radiogroup" defaultValue={0} className="flex-row flex " value={sysmptoms5} onChange={e => setsysmptoms5(e.target.value)}>
+              <Checkbox.Group name="radiogroup" defaultValue={0} className="flex-row flex " onChange={handleSymptoms5}>
 
                 <div className="flex flex-wrap p-5 pr-2 ">
 
@@ -1623,7 +1755,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="https://adamrobo.com.br/lp/img/game/icon-patologia-corpo-estranho.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Sensação de corpo ruim'}>Sensação de corpo ruim</Radio>
+                      <Checkbox value={'Sensação de corpo ruim'}>Sensação de corpo ruim</Checkbox>
                     </label>
                   </div>
 
@@ -1631,7 +1763,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/icon-patologia-litoral.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'viveu Longos períodos no Litoral'}>viveu Longos períodos no Litoral</Radio>
+                      <Checkbox value={'viveu Longos períodos no Litoral'}>viveu Longos períodos no Litoral</Checkbox>
                     </label>
                   </div>
 
@@ -1643,7 +1775,7 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/icon-patologia-zona-rural.svg" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Viveu longos períodos na Zona Rural'}>Viveu longos períodos na Zona Rural</Radio>
+                      <Checkbox value={'Viveu longos períodos na Zona Rural'}>Viveu longos períodos na Zona Rural</Checkbox>
                     </label>
                   </div>
 
@@ -1651,13 +1783,13 @@ function Form() {
                     <label htmlFor="happy">
                       <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
                       <br />
-                      <Radio value={'Nenhum'}>Nenhum</Radio>
+                      <Checkbox value={'Nenhum'}>Nenhum</Checkbox>
                     </label>
                   </div>
 
                 </div>
-              </Radio.Group>
-              <button className={`w-20 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
+              </Checkbox.Group>
+              <button className={`w-40 h-10 text-white rounded ${buttonDisable ? 'bg-gray-500' : 'bg-green-600'} ml-40`}
                 type="button"
                 onClick={handleNextStep}
                 disabled={count > 11 || buttonDisable}
@@ -1697,9 +1829,9 @@ function Form() {
               </span>
 
               <div className="mb-20  ml-5">
-
-                <button type="submit" className="w-20 h-10 text-white rounded bg-green-600 ml-40 ">Resultado</button>
+                <button type="button" onClick={sendData} className="w-40 h-10 text-white rounded bg-green-600 ml-40 ">Resultado</button>
               </div>
+
             </div>
 
 
