@@ -2,140 +2,118 @@ const mongoose = require("mongoose");
 
 const PerguntasSchema = new mongoose.Schema(
     {
-        nome : {
-            type: String,
-           
+        id: {
+            type: String
         },
-        email : {
-            type: String,
-           
+        nome: {
+            type: String
         },
-        feeling : {
-            type: String,
-            
+        email: {
+            type: String
         },
-        problem : {
-            type: String,
-            
+        feeling: {
+            type: String
         },
-        medicine : {
-            type: String,
-            
+        symptoms: {
+            type: String
+        },
+        pression: {
+            type: String
+        },
+        problem: {
+            type: String
+        },
+        medicine: {
+            type: String
         },
         eyePain: {
-            type: String 
+            type: String
         },
         feelingToday: {
-            type: String 
+            type: String
         },
         vision: {
-            type: String 
-        },
-        eyePain: {
-            type: String 
+            type: String
         },
         glass: {
-            type: String 
+            type: String
         },
         nightVision: {
-            type: String 
+            type: String
         },
         testVision: {
-            type: String 
+            type: String
+        },
+        testVision2: {
+            type: String
         },
         testDigital: {
-            type: String 
-        },
-        testVision: {
-            type: String 
+            type: String
         },
         farVision: {
-            type: String 
+            type: String
         },
         birthDay: {
-            type: Date 
+            type: String
         },
         farVision2: {
-            type: String 
+            type: String
         },
         farVision3: {
-            type: String 
+            type: String
         },
         nearVision: {
-            type: String 
-        },
-        nearVision: {
-            type: String 
+            type: String
         },
         nearVision2: {
-            type: String 
+            type: String
         },
         confort: {
-            type: String 
+            type: String
         },
         doze: {
-            type: String 
+            type: String
         },
         oito: {
-            type: String 
+            type: String
         },
         quinze: {
-            type: String 
+            type: String
         },
         seis: {
-            type: String 
+            type: String
         },
         treze: {
-            type: String 
+            type: String
         },
         quatrodois: {
-            type: String 
-        },
-        doze2: {
-            type: String 
-        },
-        oito2: {
-            type: String 
-        },
-        quinze2: {
-            type: String 
-        },
-        seis2: {
-            type: String 
-        },
-        treze2: {
-            type: String 
-        },
-        quatrodois2: {
-            type: String 
+            type: String
         },
         alignEye: {
-            type: String 
+            type: String
         },
         sysmptoms2: {
-            type: String 
+            type: String
         },
         sysmptoms3: {
-            type: String 
+            type: String
         },
         sysmptoms4: {
-            type: String 
+            type: String
         },
         sysmptoms5: {
-            type: String 
+            type: String
         },
         phone: {
-            type: String 
+            type: String
         },
         message: {
-            type: String 
+            type: String
         },
-
-
-
-
-        
-    },  
+        value: {
+            type: String
+        },
+    },
 );
 
 module.exports = Perguntas = mongoose.model("Perguntas", PerguntasSchema);

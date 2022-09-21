@@ -6,11 +6,13 @@ import { Radio } from 'antd';
 import robotsvg from "../../assets/robotsvg.svg";
 import { Progress, Rate } from "antd";
 import { api } from "../../services/api";
+import Result from "./result";
 
 
 function Form() {
 
   const [count, setCount] = useState(1);
+  const [openResult, setOpenResult] = useState(false);
 
   const [buttonDisable, setButtonDisable] = useState(true)
 
@@ -220,16 +222,9 @@ function Form() {
     }
     const response = await api.post('/api/criarpergunta', data)
     setId(response.data._id)
+    setOpenResult(true)
   }
 
-  const getData = async () => {
-    const response = await api.get('/api/criarpergunta', {
-      params: {
-        id: id
-      }
-    })
-    console.log(response)
-  }
 
   useEffect(() => {
     if (count === 2) {
@@ -349,7 +344,7 @@ function Form() {
 
   return (
     <>
-      <div className="App ">
+      {!openResult ? <div className="App ">
         <form className="col-4 form">
           {count === 1 ? (
             <>
@@ -767,7 +762,7 @@ function Form() {
                     </div>
                     <div className="flex-row ">
                       <label htmlFor="happy">
-                        <img src="	https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
+                        <img src="https://adamrobo.com.br/lp/img/game/green_none.png" width="50" height="30" alt="" />
                         <br />
                         <Checkbox value={'Nenhum'}>Nenhum</Checkbox>
                       </label>
@@ -933,7 +928,7 @@ function Form() {
                   <div className="flex-row ">
                     <label htmlFor="happy">
 
-                      <Radio value={''}>Não</Radio>
+                      <Radio value={'Não'}>Não</Radio>
                     </label>
                   </div>
 
@@ -1838,8 +1833,12 @@ function Form() {
 
           ) : null}
         </form>
-
       </div>
+        :
+        <Result
+          id={id}
+        />
+      }
     </>
   );
 }
