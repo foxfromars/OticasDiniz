@@ -30,7 +30,6 @@ const Result = ({ id }) => {
                 </div>
             </div>
 
-            <div className="w-50 border-2 rounded border-red-800"></div>
 
             <div className="flex flex-wrap">
                 <div className=" h-20 w-40 mt-10 ">
@@ -45,7 +44,6 @@ const Result = ({ id }) => {
                 </div>
             </div>
 
-            <div className="w-50 border-2 rounded border-red-800 mt-5"></div>
 
             <h1 className="font-bold text-3xl mt-10 text-left">Saúde Geral</h1>
 
@@ -68,7 +66,6 @@ const Result = ({ id }) => {
 
             <div className="mt-20">
 
-                <div className="w-50 border-2 rounded border-red-800 mt-5"></div>
                 <h1 className="font-bold text-3xl mt-5 text-left ">Saúde Geral</h1>
             </div>
 
@@ -91,7 +88,6 @@ const Result = ({ id }) => {
 
             <div className="mt-20">
 
-                <div className="w-50 border-2 rounded border-red-800 mt-5"></div>
                 <h1 className="font-bold text-3xl mt-5 text-left ">Teste de Visão</h1>
             </div>
 
@@ -112,7 +108,6 @@ const Result = ({ id }) => {
 
             <div className="mt-40">
 
-                <div className="w-50 border-2 rounded border-red-800 mt-5"></div>
                 <h1 className="font-bold text-3xl mt-5 text-left ">Cores</h1>
             </div>
 

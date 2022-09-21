@@ -281,16 +281,7 @@ function Form() {
         seis &&
         treze &&
         quatrodois) {
-        if (doze != '12' ||
-          oito != '8' ||
-          quinze != '15' ||
-          seis != '6' ||
-          treze != '73' ||
-          quatrodois != '42') {
-          setButtonDisable(true)
-        } else {
           setButtonDisable(false)
-        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -309,16 +300,7 @@ function Form() {
         seis2 &&
         treze2 &&
         quatrodois2) {
-        if (doze2 != '12' ||
-          oito2 != '8' ||
-          quinze2 != '15' ||
-          seis2 != '6' ||
-          treze2 != '73' ||
-          quatrodois2 != '42') {
-          setButtonDisable(true)
-        } else {
           setButtonDisable(false)
-        }
       }
     }
   }, [doze2,
