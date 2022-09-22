@@ -15,6 +15,9 @@ const Result = ({ id }) => {
         })
         setData(response.data)
         setDate(moment(response.data.birthDay).format('DD/MM/YYYY'))
+
+        const dataSend = { data: response.data, date: moment(response.data.birthDay).format('DD/MM/YYYY') }
+        const responseEmail = await api.post('/api/sendEmail/result', dataSend)
     }
 
     useEffect(() => {
